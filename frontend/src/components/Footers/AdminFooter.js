@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="bg-light footer position-fixed bottom-0 w-100">
+    <footer className="bg-white footer position-fixed bottom-0 ">
           <div className="copyright text-center text-xl-left text-muted">
             © {new Date().getFullYear()}{" "}
             <a
