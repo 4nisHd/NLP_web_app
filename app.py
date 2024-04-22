@@ -73,7 +73,7 @@ def _create_tf_idf_matrix(tf_matrix, idf_matrix):
         tf_idf_table = {}
 
         for (word1, value1), (word2, value2) in zip(f_table1.items(),
-                                                    f_table2.items()):  # here, keys are the same in both the table
+                                                    f_table2.items()):  
             tf_idf_table[word1] = float(value1 * value2)
 
         tf_idf_matrix[sent1] = tf_idf_table
@@ -109,7 +109,6 @@ def _find_average_score(sentenceValue) -> int:
     for entry in sentenceValue:
         sumValues += sentenceValue[entry]
 
-    # Average value of a sentence from original summary_text
     average = (sumValues / len(sentenceValue))
 
     return average
@@ -133,7 +132,7 @@ CORS(app)
 @app.route('/api/get-paragraph', methods=['POST'])
 def get_paragraph():
     button_click = request.json.get('buttonClick')
-    text_data = request.json.get('textData')  # Get the text data from the request
+    text_data = request.json.get('textData') 
     sentences = sent_tokenize(text_data)
     total_documents = len(sentences)
     freq_matrix = _create_frequency_matrix(sentences)
@@ -152,7 +151,6 @@ def get_paragraph():
 
 
     if button_click == "button1":
-        # Here, you can process the text data (e.g., perform summarization)
         paragraph = _generate_summary(sentences, sentence_scores, 1.3 * threshold)
 
     else:
