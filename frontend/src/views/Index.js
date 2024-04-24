@@ -44,7 +44,7 @@ const Index = () => {
           <button
             type="button"
             className="btn btn-warning"
-            onClick={() => handleClick('button1')}
+            onClick={() => handleClick('summerize')}
           >
             Summarize
           </button>
