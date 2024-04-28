@@ -10,7 +10,12 @@ const Index = () => {
 
   const handleClick = async (button) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/get-paragraph', { buttonClick: button, textData });
+      console.log('Current Text Data:', textData);
+      const response = await axios.post(
+        'http://127.0.0.1:5000/api/text-summarization/',
+        { buttonClick: button, textData },
+        { headers: { 'Content-Type': 'application/json' } } // Specify Content-Type header
+      );
       setParagraph(response.data.paragraph);
     } catch (error) {
       console.error('Error:', error);
@@ -44,11 +49,13 @@ const Index = () => {
           <button
             type="button"
             className="btn btn-warning"
-            onClick={() => handleClick('summerize')}
+            onClick={() => handleClick('summarize')}
           >
-            Summarize
+            Summariz
           </button>
-          <p className=' pt-7 text-left font-weight-bold'><Wordwriter text={paragraph} delay={150} /></p>
+          <p className='pt-7 text-left font-weight-bold'><Wordwriter text={paragraph} delay={150} /></p> {/* Render the paragraph state using Wordwriter */}
+          <p>aaa hiiiii</p>
+          <p>{paragraph}</p>
         </div>
       </form>
     </div>
