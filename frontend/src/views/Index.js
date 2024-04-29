@@ -30,14 +30,14 @@ const Index = () => {
     <div className='bg-light'>
       <div className='bg-warning mx-auto pl-9'>
         <h1 className='font-weight-bold'>
-          NLP.AI: <Typewriter text="Revolutionizing NLP with Transformers" delay={200} infinite />
+          NLP.AI: <Typewriter text="الذكاء الصناعي في خدمة الغة العربية" delay={200} infinite />
         </h1>
       </div>
       <form>
         <div className="form-group w-50 mx-auto pt-9 text-center">
-          <h1 className='text-center mb-5'>Text Summarization</h1>
+          <h1 className='text-center mb-5'>تلخيص النص</h1>
           <textarea
-            placeholder='Enter text...'
+            placeholder='أدخل نص...'
             className="form-control"
             id="exampleFormControlTextarea1"
             rows="6"
@@ -51,11 +51,10 @@ const Index = () => {
             className="btn btn-warning"
             onClick={() => handleClick('summarize')}
           >
-            Summariz
+            تلخيص
           </button>
           <p className='pt-7 text-left font-weight-bold'><Wordwriter text={paragraph} delay={150} /></p> {/* Render the paragraph state using Wordwriter */}
-          <p>aaa hiiiii</p>
-          <p>{paragraph}</p>
+
         </div>
       </form>
     </div>

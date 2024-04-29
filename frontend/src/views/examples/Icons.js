@@ -2,7 +2,6 @@ import Typewriter from "components/Typewriter";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { useState } from "react";
 import axios from "axios";
-
 const Icons = () => {
   const [generatedText, setGeneratedText] = useState('');
   const [textData, setTextData] = useState(''); // State to store text data from the textarea
@@ -35,11 +34,11 @@ const Icons = () => {
     <div className='bg-light'>
       <div className='bg-warning mx-auto pl-9 '>
         <h1 className='font-weight-bold '>
-          NLP.AI: <Typewriter text="الذكاء الصناعي في خدمة اللغة العربية" delay={200} infinite />
+          ARNLP:  الذكاء الصناعي في خدمة اللغة العربية
         </h1>
       </div>
       <form>
-        <div className="form-group w-50 mx-auto pt-9 text-center">
+        <div className="form-group mx-auto w-50 pt-9 text-center">
           <h1 className='text-center mb-5'>انشاء نص</h1>
           <textarea
             placeholder='أدخل نص...'
@@ -47,7 +46,13 @@ const Icons = () => {
             value={textData}
             onChange={handleTextareaChange}
             id="exampleFormControlTextarea1"
-            rows="5"
+            rows="7"
+            style={{
+              borderRadius: '10px', // Rounded edges
+              backgroundColor: '#ffffff', // Gray background color
+              borderColor: '#ffffff', // Gray border color
+              boxShadow: 'inset 0px 0px 5px 1px rgba(0, 0, 0, 0.2)', // Inner shadow
+            }}
           ></textarea>
         </div>
         <div className="col-md-12 text-center">

@@ -1,49 +1,65 @@
 from flask import Blueprint, request, jsonify
-from flask_cors import CORS  # Import CORS from flask_cors
+from flask_cors import CORS  
+from transformers import BertTokenizer, AutoModelForSeq2SeqLM, pipeline
+from arabert.preprocess import ArabertPreprocessor
 
-import spacy
-from spacy.lang.en.stop_words import STOP_WORDS
-from string import punctuation
-from heapq import nlargest
-from collections import defaultdict
+
+
 
 text_summarization_blueprint = Blueprint('text_summarization', __name__)
-CORS(text_summarization_blueprint)  # Enable CORS for the Blueprint
+CORS(text_summarization_blueprint) 
 
-nlp = spacy.load('en_core_web_sm')
-stopwords = set(STOP_WORDS)
-punctuation = set(punctuation + '\n')
+
+model_name="malmarjeh/mbert2mbert-arabic-text-summarization"
+
+preprocessor = ArabertPreprocessor(model_name="")
+
+tokenizer = BertTokenizer.from_pretrained(model_name)
+
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+pipeline = pipeline("text2text-generation",model=model,tokenizer=tokenizer)
+
+
+
+def is_valid(text):
+    range_ = (0x0600, 0x06FF)
+    supplement_range = (0x0750, 0x077F)
+    extended_range = (0x08A0, 0x08FF)
+    presentation_forms_a_range = (0xFB50, 0xFDFF)
+    presentation_forms_b_range = (0xFE70, 0xFEFF)
+    ranges = [
+        range_,
+        supplement_range,
+        extended_range,
+        presentation_forms_a_range,
+        presentation_forms_b_range,
+    ]
+
+    for char in text:
+        if any(start <= ord(char) <= end for start, end in ranges):
+            return True
+    return False
+
+
 
 @text_summarization_blueprint.route('/api/text-summarization/', methods=['POST'])
 def text_summarization():
     data = request.get_json()
     button_click = data.get('buttonClick')
     text_data = data.get('textData', '')
-    print(type(text_data))
-    if button_click == 'summarize' and text_data:
-        doc = nlp(text_data)
-
-        word_frequencies = defaultdict(int)
-        for word in doc:
-            if word.text.lower() not in stopwords and word.text.lower() not in punctuation:
-                word_frequencies[word.text] += 1
-
-        max_frequency = max(word_frequencies.values())
-        word_frequencies = {word: freq / max_frequency for word, freq in word_frequencies.items()}
-
-        sentence_scores = defaultdict(float)
-        for sent in doc.sents:
-            for word in sent:
-                if word.text.lower() in word_frequencies:
-                    sentence_scores[sent] += word_frequencies[word.text.lower()]
-
-        select_length = int(len(list(doc.sents)) * 0.3)
-        summary = nlargest(select_length, sentence_scores, key=sentence_scores.get)
-
-        final_summary = ' '.join([word.text for word in summary])
-        if final_summary.strip():
-            return jsonify({'paragraph': final_summary})
+    if is_valid(text_data):
+        if (button_click=="summarize" and text_data):
+            text=preprocessor.preprocess(text_data)
+            res=pipeline(text,
+                         pad_token_id=tokenizer.eos_token_id,
+                         num_beams=3,
+                         repetition_penalty=3.0,
+                         max_length=len(text),
+                         length_penalty=1.0,
+                         no_repeat_ngram_size=3)[0]['generated_text']
+            return jsonify({'paragraph':res})
         else:
-            return jsonify({'error': 'Summary could not be generated or is empty'})
-
-    return jsonify({'error': 'Invalid request or missing data'})
+            return jsonify({'error':'Text could not be summarized.'})
+    else:
+        return jsonify({'error':'Text is not in arabic.'})    
