@@ -49,7 +49,7 @@ const Maps = () => {
             Summarize
           </button>
         </div>
-        <p>{paragraph}</p>
+
       </form>
     </div>
   );
