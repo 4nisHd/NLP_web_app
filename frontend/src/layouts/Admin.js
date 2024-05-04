@@ -4,7 +4,7 @@ import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import AdminFooter from "components/Footers/AdminFooter.js";
+import Footer from "components/Footers/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
@@ -61,7 +61,7 @@ const Admin = (props) => {
           <Route path="*" element={<Navigate to="/admin/index" replace />} />
         </Routes>
         <Container fluid>
-          <AdminFooter />
+          <Footer />
         </Container>
       </div>
     </>

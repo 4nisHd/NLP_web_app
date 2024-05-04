@@ -1,9 +1,9 @@
 
 import Index from "views/Index.js";
-import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
+import Profile from "views/pages/Profile.js";
+import Maps from "views/pages/Maps.js";
+import Tables from "views/pages/Tables.js";
+import Icons from "views/pages/Icons.js";
 
 var routes = [
   {

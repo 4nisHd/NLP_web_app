@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "layouts/Admin.js";
-import Login from "views/examples/Login";
+import Login from "views/pages/Login";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
